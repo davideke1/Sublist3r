@@ -673,25 +673,25 @@ class DNSdumpster(enumratorBaseThreaded):
         return links
 
 
-class Virustotal(enumratorBaseThreaded):
-    def __init__(self, domain, subdomains=None, q=None, silent=False, verbose=True):
-        subdomains = subdomains or []
-        base_url = 'https://www.virustotal.com/ui/domains/{domain}/subdomains'
-        self.engine_name = "Virustotal"
-        self.q = q
-        super(Virustotal, self).__init__(base_url, self.engine_name, domain, subdomains, q=q, silent=silent, verbose=verbose)
-        self.url = self.base_url.format(domain=self.domain)
-        return
+# class Virustotal(enumratorBaseThreaded):
+#     def __init__(self, domain, subdomains=None, q=None, silent=False, verbose=True):
+#         subdomains = subdomains or []
+#         base_url = 'https://www.virustotal.com/ui/domains/{domain}/subdomains'
+#         self.engine_name = "Virustotal"
+#         self.q = q
+#         super(Virustotal, self).__init__(base_url, self.engine_name, domain, subdomains, q=q, silent=silent, verbose=verbose)
+#         self.url = self.base_url.format(domain=self.domain)
+#         return
 
-    # the main send_req need to be rewritten
-    def send_req(self, url):
-        try:
-            resp = self.session.get(url, headers=self.headers, timeout=self.timeout)
-        except Exception as e:
-            self.print_(e)
-            resp = None
+#     # the main send_req need to be rewritten
+#     def send_req(self, url):
+#         try:
+#             resp = self.session.get(url, headers=self.headers, timeout=self.timeout)
+#         except Exception as e:
+#             self.print_(e)
+#             resp = None
 
-        return self.get_response(resp)
+#         return self.get_response(resp)
 
     # once the send_req is rewritten we don't need to call this function, the stock one should be ok
     def enumerate(self):
@@ -919,7 +919,7 @@ def main(domain, threads, savefile, ports, silent, verbose, enable_bruteforce, e
                          'ask': AskEnum,
                          'netcraft': NetcraftEnum,
                          'dnsdumpster': DNSdumpster,
-                         'virustotal': Virustotal,
+#                          'virustotal': Virustotal,
                          'threatcrowd': ThreatCrowd,
                          'ssl': CrtSearch,
                          'passivedns': PassiveDNS
@@ -930,7 +930,7 @@ def main(domain, threads, savefile, ports, silent, verbose, enable_bruteforce, e
     if engines is None:
         chosenEnums = [
             BaiduEnum, YahooEnum, GoogleEnum, BingEnum, AskEnum,
-            NetcraftEnum, DNSdumpster, Virustotal, ThreatCrowd,
+            NetcraftEnum, DNSdumpster, ThreatCrowd,
             CrtSearch, PassiveDNS
         ]
     else:
